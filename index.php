@@ -4,6 +4,7 @@
 	mysql_select_db("surma");
 
 	$data="" ;
+	$pages="" ;
 
 	$inputform = "<form action=\"".$PHP_SELF."\" method=\"post\">
 						<tr>
@@ -57,6 +58,11 @@
 				</tr>";
 		}
 
+		$fet = (mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM dump")));
+		$zeros = floor(log($fet[0],10));
+		$maxpage=floor($fet[0]/10)+1;
+		for ($i=1; $i<=$maxpage; $i++)
+			$pages .= "<a href=\"".$PHP_SELF."?page=".$i."\">".sprintf("%0".$zeros."d",$i)."</a> ";
 	}
 	mysql_close($sql);
 ?>
@@ -78,6 +84,12 @@
 <input type="submit" value="Edit/Delete"></td>
 </tr>
 </form>
+<tr>
+<td>Pages:</td>
+<td>
+<?=$pages;?>
+</td>
+</tr>
 </table>
 </pre>
 </body>
