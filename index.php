@@ -41,8 +41,11 @@
 			mysql_query("UPDATE dump SET data='".$_POST["data"]."',links='".$_POST["links"]."' WHERE timestamp='".$_POST["timestamp"]."'");
 
 	{
-		$entries = mysql_query("SELECT * FROM dump ORDER BY timestamp DESC LIMIT 50");
-
+		if (!isset ($_GET["page"]))
+			$page = 0;
+		else
+			$page = ($_GET["page"] - 1)*10;
+		$entries = mysql_query("SELECT * FROM dump ORDER BY timestamp DESC LIMIT ".$page.",10");
 		while ($fet = mysql_fetch_array($entries))
 		{
 			$links = explode("|", $fet["links"]);
