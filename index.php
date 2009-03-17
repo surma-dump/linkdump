@@ -30,7 +30,7 @@
 							<td>Text/Links/Token:</td>
 							<td><input type=\"hidden\" name=\"action\" value=\"edit2\">
 							<input type=\"hidden\" name=\"timestamp\" value=\"".$entry["timestamp"]."\">
-							<input type=\"text\" name=\"data\" value=\"".$entry["data"]."\">
+							<input type=\"text\" name=\"data\" value=\"".htmlspecialchars($entry["data"])."\">
 							<input type=\"text\" name=\"links\" value=\"".$entry["links"]."\">
 							<input type=\"password\" name=\"token\">
 							<input type=\"submit\" value=\"Save\"></td>
@@ -49,6 +49,7 @@
 		$entries = mysql_query("SELECT * FROM dump ORDER BY timestamp DESC LIMIT ".$page.",10");
 		while ($fet = mysql_fetch_array($entries))
 		{
+			$fet["data"] = htmlspecialchars($fet["data"]);
 			$links = explode("|", $fet["links"]);
 			foreach ($links as $link)
 				$fet["data"] = preg_replace ('/\[([^\]]+)\]/','<a href="'.$link.'" target="_blank">$1</a>', $fet["data"], 1);
