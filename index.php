@@ -42,7 +42,7 @@
 			mysql_query("UPDATE dump SET data='".$_POST["data"]."',links='".$_POST["links"]."' WHERE timestamp='".$_POST["timestamp"]."'");
 
 	{
-		if (!isset ($_GET["page"]))
+		if (!isset ($_GET["page"]) || !preg_match("/[0-9]+/", $_GET["page"]) || $_GET["page"] <= 0)
 			$page = 0;
 		else
 			$page = ($_GET["page"] - 1)*10;
@@ -62,8 +62,11 @@
 		$fet = (mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM dump")));
 		$zeros = floor(log($fet[0],10));
 		$maxpage=floor($fet[0]/10)+1;
+		$actpage=$page/10+1;
+		$pages .= "<a href=\"".$PHP_SELF."?page=".max(1,$actpage-1)."\">&laquo;</a> ";
 		for ($i=1; $i<=$maxpage; $i++)
 			$pages .= "<a href=\"".$PHP_SELF."?page=".$i."\">".sprintf("%0".$zeros."d",$i)."</a> ";
+		$pages .= "<a href=\"".$PHP_SELF."?page=".min($maxpage,$actpage+1)."\">&raquo;</a> ";
 	}
 	mysql_close($sql);
 ?>
