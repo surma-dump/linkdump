@@ -60,12 +60,12 @@
 		}
 
 		$fet = (mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM dump")));
-		$zeros = floor(log($fet[0],10));
+		$zeros = floor(log($fet[0]/10+1,10));
 		$maxpage=floor($fet[0]/10)+1;
 		$actpage=$page/10+1;
 		$pages .= "<a href=\"".$PHP_SELF."?page=".max(1,$actpage-1)."\">&laquo;</a> ";
 		for ($i=1; $i<=$maxpage; $i++)
-			$pages .= "<a href=\"".$PHP_SELF."?page=".$i."\">".sprintf("%0".$zeros."d",$i)."</a> ";
+			$pages .= "<a href=\"".$PHP_SELF."?page=".$i."\">".sprintf("%0".($zeros+1)."d",$i)."</a> ";
 		$pages .= "<a href=\"".$PHP_SELF."?page=".min($maxpage,$actpage+1)."\">&raquo;</a> ";
 	}
 	mysql_close($sql);
