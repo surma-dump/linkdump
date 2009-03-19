@@ -1,5 +1,4 @@
 <?
-	$token="ff1cdad3cc8bab54045f221ad1a936ee";
 	include ("./config.inc");
 	$sql = mysql_connect ("localhost", $DB_USER, $DB_PASS);
 	mysql_select_db("surma");
