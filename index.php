@@ -77,6 +77,7 @@
 </head>
 <body>
 <pre>
+<a href="<?=$PHP_SELF;?>">Home</a>
 <table border=0>
 <?=$inputform;?>
 <form action="<?=$PHP_SELF;?>" method="post">
