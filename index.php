@@ -17,11 +17,11 @@
 						</tr>
 						</form>";
 
-	if ($_POST["action"] == "insert" && md5($_POST["token"]) == $token)
+	if ($_POST["action"] == "insert" && md5($_POST["token"]) == $TOKEN)
 		mysql_query("INSERT INTO dump (timestamp, data, links) VALUES (UNIX_TIMESTAMP(),'".$_POST["data"]."','".$_POST["links"]."')");	
-	elseif ($_POST["action"] == "editdelete" && isset($_POST["timestamp"]) && md5($_POST["token"]) == $token)
+	elseif ($_POST["action"] == "editdelete" && isset($_POST["timestamp"]) && md5($_POST["token"]) == $TOKEN)
 		mysql_query ("DELETE FROM dump WHERE timestamp=".$_POST["timestamp"]);
-	elseif ($_POST["action"] == "editdelete" && isset($_POST["timestamp"]) && md5($_POST["token"]) != $token)
+	elseif ($_POST["action"] == "editdelete" && isset($_POST["timestamp"]) && md5($_POST["token"]) != $TOKEN)
 	{
 
 		$entry = mysql_fetch_array(mysql_query("SELECT * FROM dump where timestamp='".$_POST["timestamp"]."'"));
@@ -38,7 +38,7 @@
 							</form>";
 
 	}
-	elseif ($_POST["action"] == "edit2" && isset($_POST["timestamp"]) && md5($_POST["token"]) == $token)
+	elseif ($_POST["action"] == "edit2" && isset($_POST["timestamp"]) && md5($_POST["token"]) == $TOKEN)
 			mysql_query("UPDATE dump SET data='".$_POST["data"]."',links='".$_POST["links"]."' WHERE timestamp='".$_POST["timestamp"]."'");
 
 	{
@@ -46,7 +46,7 @@
 			$page = 0;
 		else
 			$page = ($_GET["page"] - 1)*10;
-		$entries = mysql_query("SELECT * FROM dump ORDER BY timestamp DESC LIMIT ".$page.",10");
+		$entries = mysql_query("SELECT * FROM dump ORDER BY timestamp DESC LIMIT ".$page.",".$POSTSPERPAGE);
 		while ($fet = mysql_fetch_array($entries))
 		{
 			$fet["data"] = htmlspecialchars($fet["data"]);
