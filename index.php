@@ -6,6 +6,13 @@
 	$data="" ;
 	$pages="" ;
 
+	if(!isset($_GET["entries"])) 
+		$POSTSPERPAGE = $PPS ;
+	else if (preg_match("/^[0-9]*$/", $_GET["entries"]) == 1)
+		$POSTSPERPAGE = $_GET["entries"] ;
+	else
+		$POSTSPERPAGE = $PPS ;
+
 	$inputform = "<form action=\"".$PHP_SELF."\" method=\"post\">
 						<tr>
 						<td>Text/Links/Token:</td>
@@ -45,7 +52,7 @@
 		if (!isset ($_GET["page"]) || !preg_match("/[0-9]+/", $_GET["page"]) || $_GET["page"] <= 0)
 			$page = 0;
 		else
-			$page = ($_GET["page"] - 1)*10;
+			$page = ($_GET["page"] - 1)*$POSTSPERPAGE;
 		$entries = mysql_query("SELECT * FROM dump ORDER BY timestamp DESC LIMIT ".$page.",".$POSTSPERPAGE);
 		while ($fet = mysql_fetch_array($entries))
 		{
